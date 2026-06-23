@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Meeting from './Meeting';
 
-import { createMeetingThunk, cancelMeetingsThunk } from '../store/meetings';
+import { createMeetingThunk } from '../store/meetings';
 
 class AllMeetings extends Component {
 
@@ -55,9 +55,6 @@ class AllMeetings extends Component {
             </tbody>
           </table>
         </div>
-        <div id="meetings-cancel" onClick={() => this.props.cancelMeetings()}>
-          Cancel Meetings
-        </div>
       </div>
     )
   }
@@ -68,9 +65,6 @@ const mapState = ({ meetings }) => ({ meetings });
 const mapDispatch = dispatch => ({
   createMeeting: () => {
     dispatch(createMeetingThunk());
-  },
-  cancelMeetings: () => {
-    dispatch(cancelMeetingsThunk());
   }
 });
 
