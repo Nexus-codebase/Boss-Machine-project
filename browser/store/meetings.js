@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { shouldUseMockApi, createMockMeeting } from '../mockData';
 
 const CREATE_MEETING = 'CREATE_MEETING';
 const CANCEL_MEETINGS = 'CANCEL_MEETINGS';
@@ -25,6 +26,11 @@ export const cancelMeetings = () => {
 }
 
 export const createMeetingThunk = () => dispatch => {
+  if (shouldUseMockApi) {
+    dispatch(createMeeting(createMockMeeting()));
+    return;
+  }
+
   axios.post('http://localhost:4001/api/meetings')
   .then(res => res.data)
   .then(createdMeeting => {
@@ -34,6 +40,11 @@ export const createMeetingThunk = () => dispatch => {
 }
 
 export const cancelMeetingsThunk = () => dispatch => {
+  if (shouldUseMockApi) {
+    dispatch(cancelMeetings());
+    return;
+  }
+
   axios.delete('http://localhost:4001/api/meetings')
   .then(() => {
     dispatch(cancelMeetings());

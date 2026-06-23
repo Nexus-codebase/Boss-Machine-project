@@ -13,6 +13,15 @@ import { setSelectedIdea } from './store/selectedIdea';
 import { setWork } from './store/work';
 import { setMeetings } from './store/meetings'; 
 import { setIdeaEditing, setMinionEditing, resetEditingState } from './store/appState';
+import {
+  shouldUseMockApi,
+  getMockMinions,
+  getMockIdeas,
+  getMockMeetings,
+  getMockMinionById,
+  getMockIdeaById,
+  getMockWorkByMinionId,
+} from './mockData';
 
 import App from './components/App';
 import AllMinions from './components/AllMinions';
@@ -22,6 +31,13 @@ import Idea from './components/Idea';
 import Minion from './components/Minion';
 
 const appEnter = nextRouterState => {
+  if (shouldUseMockApi) {
+    store.dispatch(setMinions(getMockMinions()));
+    store.dispatch(setIdeas(getMockIdeas()));
+    store.dispatch(setMeetings(getMockMeetings()));
+    return;
+  }
+
   Promise.all([
     axios.get('http://localhost:4001/api/minions'),
     axios.get('http://localhost:4001/api/ideas'),
@@ -41,6 +57,17 @@ const appEnter = nextRouterState => {
 const singleMinionEnter = nextRouterState => {
   store.dispatch(resetEditingState());
   const id = nextRouterState.params.id;
+
+  if (shouldUseMockApi) {
+    const minion = getMockMinionById(id);
+    const work = getMockWorkByMinionId(id);
+    if (minion) {
+      store.dispatch(setSelectedMinion(minion));
+    }
+    store.dispatch(setWork(work));
+    return;
+  }
+
   axios.get(`http://localhost:4001/api/minions/${id}`)
   .then(res => res.data)
   .then(minion => {
@@ -58,6 +85,15 @@ const singleMinionEnter = nextRouterState => {
 
 const singleIdeaEnter = nextRouterState => {
   const id = nextRouterState.params.id;
+
+  if (shouldUseMockApi) {
+    const idea = getMockIdeaById(id);
+    if (idea) {
+      store.dispatch(setSelectedIdea(idea));
+    }
+    return;
+  }
+
   axios.get(`http://localhost:4001/api/ideas/${id}`)
   .then(res => res.data)
   .then(idea => {
