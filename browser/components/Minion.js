@@ -76,7 +76,7 @@ class Minion extends Component {
         </div>
         <div className="button back-button">
           <Link to="/minions">
-            <img className="button" src="public/img/arrow.svg" />
+            <img className="button" src="img/arrow.svg" />
           </Link>
         </div>
       </div>
