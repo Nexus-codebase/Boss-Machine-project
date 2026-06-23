@@ -2,6 +2,7 @@
   "name": "build-apis-boss-machine",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://nexus-codebase.github.io/Boss-Machine-project/",
   "main": "main.js",
   "scripts": {
     "test": "cross-env PORT=8000 mocha",
